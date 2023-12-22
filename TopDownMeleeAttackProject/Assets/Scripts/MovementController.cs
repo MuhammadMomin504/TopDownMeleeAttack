@@ -54,4 +54,6 @@ public class MovementController : MonoBehaviour
         forwardInput = InputManager.forward;
         backwardInput = InputManager.backward;
     }
+    
+    
 }

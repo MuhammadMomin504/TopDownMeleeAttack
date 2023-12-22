@@ -8,7 +8,8 @@ public class PlayerController : MovementController
     #region Private_Variables
 
     private Vector3 wantedPosition = default;
-   
+    private Vector3 lastPosition = default;
+
 
     #endregion
     
@@ -62,10 +63,38 @@ public class PlayerController : MovementController
         {
             wantedPosition = Vector3.zero;
         }
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
+
+        PerformCircularRotation();
     }
 
-    private void FixedUpdate()
+    // private void FixedUpdate()
+    // {
+    //     transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
+    //     //MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
+    // }
+    void PerformCircularRotation()
     {
-        MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
+        // where is our center on screen?
+        Vector3 center = Camera.main.WorldToScreenPoint(transform.position);
+ 
+        // angle to previous finger
+         float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, lastPosition.y - center.y);
+        //float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, center.y - lastPosition.y);
+    
+        Vector3 currPosition = Input.mousePosition;
+ 
+        // angle to current finger
+         float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
+        //float angleNow = Mathf.Atan2(center.x - currPosition.x, center.y - currPosition.y);
+ 
+        lastPosition = currPosition;
+ 
+        // how different are those angles?
+        float angleDelta = (angleNow - anglePrevious);
+        //Debug.Log("angle = " + angleDelta * Mathf.Rad2Deg);
+ 
+        // rotate by that much
+        transform.Rotate(new Vector3(0, -angleDelta * Mathf.Rad2Deg, 0));
     }
 }
