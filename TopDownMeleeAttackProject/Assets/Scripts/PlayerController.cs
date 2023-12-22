@@ -7,10 +7,7 @@ public class PlayerController : MovementController
 {
     #region Private_Variables
 
-    private Vector3 inputVector = default;
-    private float rightFloat = 0f;
-    private float forwardFloat = 0f;
-    
+    private Vector3 wantedPosition = default;
    
 
     #endregion
@@ -43,42 +40,32 @@ public class PlayerController : MovementController
     {
         base.Update();
 
+        //Assign wanted position based on the user input.
         if (RightInput)
         {
-            rightFloat = 1f;
-            //inputVector = new Vector3(1f, 0f, 0f);
+            wantedPosition.x = 1f;
         }
         if (LeftInput)
         {
-            rightFloat = -1f;
-            //inputVector = new Vector3(-1f, 0f, 0f);
+            wantedPosition.x = -1f;
         }
         if (ForwardInput)
         {
-            forwardFloat = 1f;
-            //inputVector = new Vector3(0f, 0f, 1f);
+            wantedPosition.z = 1f;
         }
         if (BackwardInput)
         {
-            forwardFloat = -1f;
-            //inputVector = new Vector3(0f, 0f, -1f);
+            wantedPosition.z = -1f;
         }
-
         
         if (!RightInput && !LeftInput && !ForwardInput && !BackwardInput)
         {
-            rightFloat = 0f;
-            forwardFloat = 0f;
+            wantedPosition = Vector3.zero;
         }
-        inputVector = new Vector3(rightFloat, 0f , forwardFloat);
-        //Debug.Log("Input vector = " + inputVector);
-
-        
-        
     }
 
     private void FixedUpdate()
     {
-        MyRigidBody.MovePosition(transform.position + inputVector * Time.deltaTime * movementSpeed);
+        MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
     }
 }
