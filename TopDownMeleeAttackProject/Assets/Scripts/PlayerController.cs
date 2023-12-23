@@ -36,6 +36,7 @@ public class PlayerController : MovementController
     void Start()
     {
         lastPosition = Input.mousePosition;
+        PlayAnimation(Constants.Animations.Idle);
     }
 
     // Update is called once per frame

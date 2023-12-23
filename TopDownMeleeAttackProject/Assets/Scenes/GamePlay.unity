@@ -430,8 +430,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6abfa7033584ac9942f96f38f7d981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationComponent: {fileID: 0}
   character: {fileID: 1966057818}
+  animationClips:
+  - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   movementSpeed: 10
   cube: {fileID: 0}
 --- !u!4 &805435703
@@ -1277,8 +1279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6abfa7033584ac9942f96f38f7d981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationComponent: {fileID: 0}
   character: {fileID: 0}
+  animationClips: []
   movementSpeed: 10
   cube: {fileID: 0}
 --- !u!4 &1844924124
@@ -1411,8 +1413,11 @@ Animation:
   m_GameObject: {fileID: 1315162824}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
+  m_Animation: {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  m_Animations:
+  - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
