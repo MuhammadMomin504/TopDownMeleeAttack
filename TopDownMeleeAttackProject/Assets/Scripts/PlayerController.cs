@@ -25,6 +25,8 @@ public class PlayerController : MovementController
     #endregion
 
 
+    public Transform cube;
+
     private void Awake()
     {
         base.Awake();
@@ -33,7 +35,7 @@ public class PlayerController : MovementController
     // Start is called before the first frame update
     void Start()
     {
-        
+        lastPosition = Input.mousePosition;
     }
 
     // Update is called once per frame
@@ -64,37 +66,46 @@ public class PlayerController : MovementController
             wantedPosition = Vector3.zero;
         }
         transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
+        RotateUsingMouse();
 
-        PerformCircularRotation();
     }
 
-    // private void FixedUpdate()
-    // {
-    //     transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
-    //     //MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
-    // }
-    void PerformCircularRotation()
+    private void FixedUpdate()
     {
+        //transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
+        //MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
+
+    }
+    void RotateUsingMouse()
+    {
+        // Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // Vector3 direction = mousePosition - transform.position;
+        // float angle = Mathf.Atan2(direction.x, direction.y);
+        // //transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        // //transform.Rotate(new Vector3(0, angle * Mathf.Rad2Deg, 0));
+        // transform.Rotate(new Vector3(0, (-angle * Mathf.Rad2Deg), 0));
         // where is our center on screen?
         Vector3 center = Camera.main.WorldToScreenPoint(transform.position);
- 
+        
         // angle to previous finger
-         float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, lastPosition.y - center.y);
-        //float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, center.y - lastPosition.y);
-    
+        float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, lastPosition.y - center.y);
+        //float anglePrevious = Mathf.Atan2(center.y - lastPosition.y, center.x - lastPosition.x);
+        
         Vector3 currPosition = Input.mousePosition;
- 
+        
         // angle to current finger
-         float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
-        //float angleNow = Mathf.Atan2(center.x - currPosition.x, center.y - currPosition.y);
- 
+        float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
+        //float angleNow = Mathf.Atan2(center.y - currPosition.y, center.x - currPosition.x);
+        
         lastPosition = currPosition;
- 
+        
         // how different are those angles?
         float angleDelta = (angleNow - anglePrevious);
+        //float angleDelta = (anglePrevious - angleNow);
         //Debug.Log("angle = " + angleDelta * Mathf.Rad2Deg);
- 
-        // rotate by that much
-        transform.Rotate(new Vector3(0, -angleDelta * Mathf.Rad2Deg, 0));
+        
+        transform.Rotate(new Vector3(0, (-angleDelta * Mathf.Rad2Deg), 0));
+
+
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
@@ -14,11 +15,13 @@ public class MovementController : MonoBehaviour
     private bool jumpInput = false;
 
     private Rigidbody myRigidBody = default;
+    public Animation animationComponent = default;
     
     #endregion
 
     #region Exposed_Variables
-
+    [SerializeField] private Transform character = default;
+    
     
 
     #endregion
@@ -37,6 +40,7 @@ public class MovementController : MonoBehaviour
     public void Awake()
     {
         myRigidBody = GetComponent<Rigidbody>();
+        animationComponent = character.GetComponent<Animation>();
     }
 
 
@@ -54,6 +58,18 @@ public class MovementController : MonoBehaviour
         forwardInput = InputManager.forward;
         backwardInput = InputManager.backward;
     }
+
+    public virtual void PlayAnimation(string animName)
+    {
+        animationComponent.Play(animName);
+    }
+
+    public virtual void StopAnimation()
+    {
+        
+    }
+    
+    
     
     
 }
