@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 
 
-public class MovementController : MonoBehaviour
+public class MovementController : AnimationController
 {
     #region Private_Variables
 
@@ -17,16 +17,12 @@ public class MovementController : MonoBehaviour
     private bool jumpInput = false;
 
     private Rigidbody myRigidBody = default;
-    private Animation animationComponent = default;
-
+    
     
     #endregion
 
     #region Exposed_Variables
-    [SerializeField] private Transform character = default;
-    [SerializeField] private AnimationClip[] animationClips = default;
-    
-    
+   
 
     #endregion
 
@@ -44,12 +40,14 @@ public class MovementController : MonoBehaviour
     public void Awake()
     {
         myRigidBody = GetComponent<Rigidbody>();
-        animationComponent = character.GetComponent<Animation>();
-        SetLegacyModeToAllAnimations();
-        //SetAnimationLoopWrapMode(Constants.Animations.Idle);
+        Init();
     }
 
-
+    protected override void Init()
+    {
+        base.Init();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -65,42 +63,7 @@ public class MovementController : MonoBehaviour
         backwardInput = InputManager.backward;
     }
 
-    private void SetLegacyModeToAllAnimations()
-    {
-        for (int i = 0; i < animationClips.Length; i++)
-        {
-            animationClips[i].legacy = true;
-        }
-    }
-
-    private void SetAnimationLoopWrapMode(string animName)
-    {
-        for (int i = 0; i < animationClips.Length; i++)
-        {
-            //if (animName == animationClips[i].ToString())
-            {
-                animationClips[i].wrapMode = WrapMode.Loop;
-                Debug.Log("Setting");
-            }
-        }
-    }
-
-    public virtual void PlayAnimation(string animName)
-    {
-        animationComponent.Play(animName);
-    }
-
-    public virtual void StopAnimation()
-    {
-        animationComponent.Stop();
-    }
-    public virtual void SwtichAnimation(string animName)
-    {
-        animationComponent.CrossFade(animName);
-    }
-    
-    
-    
+   
     
     
 }
