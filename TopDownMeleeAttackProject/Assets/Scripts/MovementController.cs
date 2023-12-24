@@ -17,6 +17,7 @@ public class MovementController : AnimationController
     private bool isWalkState = false;
     private bool isIdleState = false;
     private Vector3 wantedPosition = default;
+    private bool isAttacking = false;
     
     
     #endregion
@@ -44,6 +45,8 @@ public class MovementController : AnimationController
         get { return currentMovementSpeed; }
         set { currentMovementSpeed = value; }
     }
+
+    public bool IsAttacking => isAttacking;
     public Rigidbody MyRigidBody => myRigidBody;
 
     #endregion
@@ -68,6 +71,7 @@ public class MovementController : AnimationController
     // Update is called once per frame
     public void Update()
     {
+        base.Update();
         if (wantedPosition != Vector3.zero)
         {
             currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
@@ -112,7 +116,21 @@ public class MovementController : AnimationController
 
     public virtual void Attack()
     {
-        //PlayAnimation(Constants.Animations.MeleeAttack);
+        isAttacking = true;
+        SwtichAnimation(Constants.Animations.MeleeAttack);
+        StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
+        StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.MeleeAttack));
+    }
+
+    private IEnumerator PlayPreviousAnimationWhenCurrentAnimationCompletes(float animationLength)
+    {
+        yield return new WaitForSeconds(animationLength);
+        if(isIdleState)
+            SwitchToIdleAnimation();
+        else if (isWalkState)
+            SwitchToWalkAnimation();
+
+        isAttacking = false;
     }
     
     

@@ -45,6 +45,9 @@ public class PlayerController : MovementController
     // Update is called once per frame
     void Update()
     {
+        if(IsAttacking) //Stop taking inputs if attack animation is running
+            return;
+        
         leftInput = InputManager.left;
         rightInput = InputManager.right;
         forwardInput = InputManager.forward;
@@ -54,6 +57,7 @@ public class PlayerController : MovementController
         base.Update();
 
         //Assign wanted position based on the user input.
+        
         if (rightInput)
         {
             myWantedPosition.x = 1f;
@@ -77,7 +81,7 @@ public class PlayerController : MovementController
 
         if (mouseInput)
         {
-            Debug.Log("Mouse clicked");
+            Debug.Log("Attack");
             Attack();
         }
         
@@ -117,6 +121,7 @@ public class PlayerController : MovementController
 
     public override void Attack()
     {
+        myWantedPosition = Vector3.zero;
         base.Attack();
         
     }
