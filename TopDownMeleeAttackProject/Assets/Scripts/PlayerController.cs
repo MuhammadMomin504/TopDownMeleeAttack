@@ -8,8 +8,10 @@ public class PlayerController : MovementController
     #region Private_Variables
 
     private Vector3 wantedPosition = default;
-    private Vector3 lastPosition = default;
-
+    private float walkingTimer = 0f;
+    private bool isWalkCycle = false;
+    private bool shouldSwitchAnimation = false;
+    private Vector3 lastMousePosition = default;
 
     #endregion
     
@@ -35,7 +37,7 @@ public class PlayerController : MovementController
     // Start is called before the first frame update
     void Start()
     {
-        lastPosition = Input.mousePosition;
+        lastMousePosition = Input.mousePosition;
         PlayAnimation(Constants.Animations.Idle);
     }
 
@@ -66,8 +68,30 @@ public class PlayerController : MovementController
         {
             wantedPosition = Vector3.zero;
         }
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * movementSpeed);
+      
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * CurrentMovementSpeed);
+        
         RotateUsingMouse();
+
+        walkingTimer += Time.deltaTime;
+
+        if (wantedPosition != Vector3.zero)
+        {
+            CurrentMovementSpeed = Mathf.MoveTowards(CurrentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
+        }
+        else
+        {
+            CurrentMovementSpeed = 0f;
+        }
+        
+        
+        
+
+    }
+
+    private void SwitchToWalkAnimation()
+    {
+        SwtichAnimation(Constants.Animations.Walk);
 
     }
 
@@ -89,7 +113,7 @@ public class PlayerController : MovementController
         Vector3 center = Camera.main.WorldToScreenPoint(transform.position);
         
         // angle to previous finger
-        float anglePrevious = Mathf.Atan2(center.x - lastPosition.x, lastPosition.y - center.y);
+        float anglePrevious = Mathf.Atan2(center.x - lastMousePosition.x, lastMousePosition.y - center.y);
         //float anglePrevious = Mathf.Atan2(center.y - lastPosition.y, center.x - lastPosition.x);
         
         Vector3 currPosition = Input.mousePosition;
@@ -98,7 +122,7 @@ public class PlayerController : MovementController
         float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
         //float angleNow = Mathf.Atan2(center.y - currPosition.y, center.x - currPosition.x);
         
-        lastPosition = currPosition;
+        lastMousePosition = currPosition;
         
         // how different are those angles?
         float angleDelta = (angleNow - anglePrevious);

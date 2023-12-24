@@ -17,6 +17,9 @@ public class MovementController : AnimationController
     private bool jumpInput = false;
 
     private Rigidbody myRigidBody = default;
+    private Vector3 lastPosition = default;
+    private float currentMovementSpeed = 0f;
+
     
     
     #endregion
@@ -33,6 +36,18 @@ public class MovementController : AnimationController
     public bool ForwardInput => forwardInput;
     public bool BackwardInput => backwardInput;
     public bool JumpInput => jumpInput;
+
+    public Vector3 LastPosition
+    {
+        get { return lastPosition;}
+        set { lastPosition = value; }
+    }
+
+    public float CurrentMovementSpeed
+    {
+        get { return currentMovementSpeed; }
+        set { currentMovementSpeed = value; }
+    }
     public Rigidbody MyRigidBody => myRigidBody;
 
     #endregion
