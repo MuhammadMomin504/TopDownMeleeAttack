@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -15,28 +16,36 @@ public class MovementController : AnimationController
     private bool forwardInput = false;
     private bool backwardInput = false;
     private bool jumpInput = false;
+    private bool mouseInput = false;
 
     private Rigidbody myRigidBody = default;
     private Vector3 lastPosition = default;
     private float currentMovementSpeed = 0f;
     private bool isWalkState = false;
     private bool isIdleState = false;
+    private Vector3 wantedPosition = default;
     
     
     #endregion
 
     #region Exposed_Variables
-   
+    [SerializeField] private float movementSpeed = 5f;
 
     #endregion
 
     #region Getters
 
-    public bool LeftInput => leftInput;
-    public bool RightInput => rightInput;
-    public bool ForwardInput => forwardInput;
-    public bool BackwardInput => backwardInput;
+    protected bool LeftInput => leftInput;
+    protected bool RightInput => rightInput;
+    protected bool ForwardInput => forwardInput;
+    protected bool BackwardInput => backwardInput;
+    protected bool MouseInput => mouseInput;
     public bool JumpInput => jumpInput;
+
+    protected Vector3 WantedPosition
+    {
+        get { return wantedPosition; }
+    }
 
     public Vector3 LastPosition
     {
@@ -77,11 +86,21 @@ public class MovementController : AnimationController
         rightInput = InputManager.right;
         forwardInput = InputManager.forward;
         backwardInput = InputManager.backward;
+        mouseInput = InputManager.mouseClicked;
 
+        if (wantedPosition != Vector3.zero)
+        {
+            currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
+        }
+        else
+        {
+            currentMovementSpeed = 0f;
+        }
+        
         if (currentMovementSpeed >= 1f && !isWalkState)
         {
             SwitchToWalkAnimation();
-            ChangeSpeedOfAnimation(Constants.Animations.Walk, 3f);
+            ChangeSpeedOfAnimation(Constants.Animations.Walk, 3.5f);
             isWalkState = true;
             isIdleState = false;
         }
@@ -94,6 +113,11 @@ public class MovementController : AnimationController
         
     }
 
+    public void UpdateWantedPosition(Vector3 wantedPosition)
+    {
+        this.wantedPosition = wantedPosition;
+    }
+
     private void SwitchToWalkAnimation()
     {
         SwtichAnimation(Constants.Animations.Walk);
@@ -103,6 +127,11 @@ public class MovementController : AnimationController
     {
         SwtichAnimation(Constants.Animations.Idle);
 
+    }
+
+    public virtual void Attack()
+    {
+        
     }
     
     

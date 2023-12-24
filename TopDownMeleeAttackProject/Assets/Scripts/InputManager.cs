@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public static bool jump = false;
     public static bool backward = false;
     public static bool forward = false;
+    public static bool mouseClicked = false;
     
     
     private bool leftButton = false;
@@ -33,7 +34,15 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseClicked = true;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            mouseClicked = false;
+        }
         
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) )
         {

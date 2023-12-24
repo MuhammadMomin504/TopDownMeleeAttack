@@ -7,14 +7,14 @@ public class PlayerController : MovementController
 {
     #region Private_Variables
 
-    private Vector3 wantedPosition = default;
+    private Vector3 lastRotationVector = default;
     private Vector3 lastMousePosition = default;
+    private Quaternion targetRotation = default;
+    private Vector3 myWantedPosition = default;
 
     #endregion
     
     #region Exposed_Variables
-
-    [SerializeField] private float movementSpeed = 5f;
     
 
     #endregion
@@ -46,39 +46,51 @@ public class PlayerController : MovementController
         //Assign wanted position based on the user input.
         if (RightInput)
         {
-            wantedPosition.x = 1f;
+            myWantedPosition.x = 1f;
+            UpdateWantedPosition(myWantedPosition);
         }
         if (LeftInput)
         {
-            wantedPosition.x = -1f;
+            myWantedPosition.x = -1f;
+            UpdateWantedPosition(myWantedPosition);
         }
         if (ForwardInput)
         {
-            wantedPosition.z = 1f;
+            myWantedPosition.z = 1f;
+            UpdateWantedPosition(myWantedPosition);
         }
         if (BackwardInput)
         {
-            wantedPosition.z = -1f;
+            myWantedPosition.z = -1f;
+            UpdateWantedPosition(myWantedPosition);
+        }
+
+        if (MouseInput)
+        {
+            
         }
         
         if (!RightInput && !LeftInput && !ForwardInput && !BackwardInput)
         {
-            wantedPosition = Vector3.zero;
-        }
-      
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + wantedPosition, Time.deltaTime * CurrentMovementSpeed);
-        
-        RotateUsingMouse();
-
-        if (wantedPosition != Vector3.zero)
-        {
-            CurrentMovementSpeed = Mathf.MoveTowards(CurrentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
+            myWantedPosition = Vector3.zero;
         }
         else
         {
-            CurrentMovementSpeed = 0f;
+            lastRotationVector = myWantedPosition;
         }
+        
+      
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
+        SetRotation();
+        //RotateUsingMouse();
 
+        
+
+    }
+
+    private void SetRotation()
+    {
+        transform.rotation = Quaternion.LookRotation(lastRotationVector);
     }
 
    
@@ -117,7 +129,7 @@ public class PlayerController : MovementController
         //float angleDelta = (anglePrevious - angleNow);
         //Debug.Log("angle = " + angleDelta * Mathf.Rad2Deg);
         
-        transform.Rotate(new Vector3(0, (-angleDelta * Mathf.Rad2Deg), 0));
+        transform.Rotate(  new Vector3(0, (-angleDelta * Mathf.Rad2Deg), 0));
 
 
     }
