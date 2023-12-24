@@ -24,6 +24,7 @@ public class MovementController : AnimationController
 
     #region Exposed_Variables
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float walkAnimationSpeed = 1f;
 
     #endregion
 
@@ -84,7 +85,7 @@ public class MovementController : AnimationController
         if (currentMovementSpeed >= 1f && !isWalkState)
         {
             SwitchToWalkAnimation();
-            ChangeSpeedOfAnimation(Constants.Animations.Walk, 3.5f);
+            ChangeSpeedOfAnimation(Constants.Animations.Walk, walkAnimationSpeed);
             isWalkState = true;
             isIdleState = false;
         }
