@@ -8,9 +8,6 @@ public class PlayerController : MovementController
     #region Private_Variables
 
     private Vector3 wantedPosition = default;
-    private float walkingTimer = 0f;
-    private bool isWalkCycle = false;
-    private bool shouldSwitchAnimation = false;
     private Vector3 lastMousePosition = default;
 
     #endregion
@@ -73,8 +70,6 @@ public class PlayerController : MovementController
         
         RotateUsingMouse();
 
-        walkingTimer += Time.deltaTime;
-
         if (wantedPosition != Vector3.zero)
         {
             CurrentMovementSpeed = Mathf.MoveTowards(CurrentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
@@ -83,17 +78,10 @@ public class PlayerController : MovementController
         {
             CurrentMovementSpeed = 0f;
         }
-        
-        
-        
 
     }
 
-    private void SwitchToWalkAnimation()
-    {
-        SwtichAnimation(Constants.Animations.Walk);
-
-    }
+   
 
     private void FixedUpdate()
     {

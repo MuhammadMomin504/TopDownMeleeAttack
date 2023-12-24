@@ -19,7 +19,8 @@ public class MovementController : AnimationController
     private Rigidbody myRigidBody = default;
     private Vector3 lastPosition = default;
     private float currentMovementSpeed = 0f;
-
+    private bool isWalkState = false;
+    private bool isIdleState = false;
     
     
     #endregion
@@ -76,9 +77,34 @@ public class MovementController : AnimationController
         rightInput = InputManager.right;
         forwardInput = InputManager.forward;
         backwardInput = InputManager.backward;
+
+        if (currentMovementSpeed >= 1f && !isWalkState)
+        {
+            SwitchToWalkAnimation();
+            isWalkState = true;
+            isIdleState = false;
+            Debug.Log("Switching to walk animation");
+        }
+        else if (currentMovementSpeed < 1f && !isIdleState)
+        {
+            isWalkState = false;
+            isIdleState = true;
+            SwitchToIdleAnimation();
+            Debug.Log("Switching to Idle animation");
+        }
+        
     }
 
-   
+    private void SwitchToWalkAnimation()
+    {
+        SwtichAnimation(Constants.Animations.Walk);
+
+    }
+    private void SwitchToIdleAnimation()
+    {
+        SwtichAnimation(Constants.Animations.Idle);
+
+    }
     
     
 }
