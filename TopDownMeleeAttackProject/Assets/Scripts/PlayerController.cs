@@ -67,12 +67,14 @@ public class PlayerController : MovementController
 
         if (MouseInput)
         {
-            
+            Debug.Log("Mouse clicked");
+            Attack();
         }
         
         if (!RightInput && !LeftInput && !ForwardInput && !BackwardInput)
         {
             myWantedPosition = Vector3.zero;
+            UpdateWantedPosition(myWantedPosition);
         }
         else
         {
@@ -101,6 +103,13 @@ public class PlayerController : MovementController
         //MyRigidBody.MovePosition(transform.position + wantedPosition * Time.deltaTime * movementSpeed);
 
     }
+
+    public override void Attack()
+    {
+        base.Attack();
+        
+    }
+
     void RotateUsingMouse()
     {
         // Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
