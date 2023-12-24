@@ -7,6 +7,13 @@ public class PlayerController : MovementController
 {
     #region Private_Variables
 
+    private bool leftInput = false;
+    private bool rightInput = false;
+    private bool forwardInput = false;
+    private bool backwardInput = false;
+    private bool jumpInput = false;
+    private bool mouseInput = false;
+    
     private Vector3 lastRotationVector = default;
     private Vector3 lastMousePosition = default;
     private Quaternion targetRotation = default;
@@ -23,9 +30,6 @@ public class PlayerController : MovementController
 
     #endregion
 
-
-    public Transform cube;
-
     private void Awake()
     {
         base.Awake();
@@ -41,37 +45,43 @@ public class PlayerController : MovementController
     // Update is called once per frame
     void Update()
     {
+        leftInput = InputManager.left;
+        rightInput = InputManager.right;
+        forwardInput = InputManager.forward;
+        backwardInput = InputManager.backward;
+        mouseInput = InputManager.mouseClicked;
+        
         base.Update();
 
         //Assign wanted position based on the user input.
-        if (RightInput)
+        if (rightInput)
         {
             myWantedPosition.x = 1f;
             UpdateWantedPosition(myWantedPosition);
         }
-        if (LeftInput)
+        if (leftInput)
         {
             myWantedPosition.x = -1f;
             UpdateWantedPosition(myWantedPosition);
         }
-        if (ForwardInput)
+        if (forwardInput)
         {
             myWantedPosition.z = 1f;
             UpdateWantedPosition(myWantedPosition);
         }
-        if (BackwardInput)
+        if (backwardInput)
         {
             myWantedPosition.z = -1f;
             UpdateWantedPosition(myWantedPosition);
         }
 
-        if (MouseInput)
+        if (mouseInput)
         {
             Debug.Log("Mouse clicked");
             Attack();
         }
         
-        if (!RightInput && !LeftInput && !ForwardInput && !BackwardInput)
+        if (!rightInput && !leftInput && !forwardInput && !backwardInput)
         {
             myWantedPosition = Vector3.zero;
             UpdateWantedPosition(myWantedPosition);
@@ -92,7 +102,8 @@ public class PlayerController : MovementController
 
     private void SetRotation()
     {
-        transform.rotation = Quaternion.LookRotation(lastRotationVector);
+        if(lastRotationVector != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(lastRotationVector);
     }
 
    

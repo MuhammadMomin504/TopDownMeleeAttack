@@ -10,14 +10,7 @@ using UnityEngine.Animations;
 public class MovementController : AnimationController
 {
     #region Private_Variables
-
-    private bool leftInput = false;
-    private bool rightInput = false;
-    private bool forwardInput = false;
-    private bool backwardInput = false;
-    private bool jumpInput = false;
-    private bool mouseInput = false;
-
+    
     private Rigidbody myRigidBody = default;
     private Vector3 lastPosition = default;
     private float currentMovementSpeed = 0f;
@@ -34,13 +27,6 @@ public class MovementController : AnimationController
     #endregion
 
     #region Getters
-
-    protected bool LeftInput => leftInput;
-    protected bool RightInput => rightInput;
-    protected bool ForwardInput => forwardInput;
-    protected bool BackwardInput => backwardInput;
-    protected bool MouseInput => mouseInput;
-    public bool JumpInput => jumpInput;
 
     protected Vector3 WantedPosition
     {
@@ -82,12 +68,6 @@ public class MovementController : AnimationController
     // Update is called once per frame
     public void Update()
     {
-        leftInput = InputManager.left;
-        rightInput = InputManager.right;
-        forwardInput = InputManager.forward;
-        backwardInput = InputManager.backward;
-        mouseInput = InputManager.mouseClicked;
-
         if (wantedPosition != Vector3.zero)
         {
             currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
@@ -109,6 +89,7 @@ public class MovementController : AnimationController
             isWalkState = false;
             isIdleState = true;
             SwitchToIdleAnimation();
+            Debug.Log("Idle");
         }
         
     }
@@ -131,7 +112,7 @@ public class MovementController : AnimationController
 
     public virtual void Attack()
     {
-        
+        //PlayAnimation(Constants.Animations.MeleeAttack);
     }
     
     

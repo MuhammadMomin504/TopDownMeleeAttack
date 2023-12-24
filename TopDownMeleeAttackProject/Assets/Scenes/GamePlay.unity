@@ -432,10 +432,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 1966057818}
   animationClips:
+  - {fileID: 1465369574596688972, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  loopAnimationClips:
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   movementSpeed: 10
-  cube: {fileID: 0}
 --- !u!4 &805435703
 Transform:
   m_ObjectHideFlags: 0
@@ -1281,8 +1282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 0}
   animationClips: []
+  loopAnimationClips: []
   movementSpeed: 10
-  cube: {fileID: 0}
 --- !u!4 &1844924124
 Transform:
   m_ObjectHideFlags: 0
@@ -1417,7 +1418,7 @@ Animation:
   m_Animations:
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
-  - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 1465369574596688972, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

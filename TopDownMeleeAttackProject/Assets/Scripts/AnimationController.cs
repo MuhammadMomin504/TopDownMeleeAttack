@@ -14,6 +14,7 @@ public class AnimationController : MonoBehaviour
 
     #region Exposed_Variables
     [SerializeField] private AnimationClip[] animationClips = default;
+    [SerializeField] private AnimationClip[] loopAnimationClips = default;
     #endregion
 
     #region Getters
@@ -31,6 +32,7 @@ public class AnimationController : MonoBehaviour
     {
         animationComponent = character.GetComponent<Animation>();
         SetLegacyModeToAllAnimations();
+        SetAnimationLoopWrapMode();
         Debug.Log("Animation Controller Init Called");
     }
 
@@ -51,6 +53,10 @@ public class AnimationController : MonoBehaviour
         {
             animationClips[i].legacy = true;
         }
+        for (int i = 0; i < loopAnimationClips.Length; i++)
+        {
+            loopAnimationClips[i].legacy = true;
+        }
     }
     public virtual void PlayAnimation(string animName)
     {
@@ -70,15 +76,17 @@ public class AnimationController : MonoBehaviour
     {
         animationComponent[animName].speed = speed;
     }
-    private void SetAnimationLoopWrapMode(string animName)
+
+    public float GetAnimationLength(string animName)
     {
-        for (int i = 0; i < animationClips.Length; i++)
+        return animationComponent[animName].length;
+    }
+    private void SetAnimationLoopWrapMode()
+    {
+        for (int i = 0; i < loopAnimationClips.Length; i++)
         {
-            //if (animName == animationClips[i].ToString())
-            {
-                animationClips[i].wrapMode = WrapMode.Loop;
-                Debug.Log("Setting");
-            }
+            loopAnimationClips[i].wrapMode = WrapMode.Loop;
+            Debug.Log("Setting");
         }
     }
 }
