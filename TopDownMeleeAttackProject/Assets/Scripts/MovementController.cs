@@ -81,16 +81,15 @@ public class MovementController : AnimationController
         if (currentMovementSpeed >= 1f && !isWalkState)
         {
             SwitchToWalkAnimation();
+            ChangeSpeedOfAnimation(Constants.Animations.Walk, 3f);
             isWalkState = true;
             isIdleState = false;
-            Debug.Log("Switching to walk animation");
         }
         else if (currentMovementSpeed < 1f && !isIdleState)
         {
             isWalkState = false;
             isIdleState = true;
             SwitchToIdleAnimation();
-            Debug.Log("Switching to Idle animation");
         }
         
     }

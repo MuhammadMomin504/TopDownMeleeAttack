@@ -65,6 +65,11 @@ public class AnimationController : MonoBehaviour
     {
         animationComponent.CrossFade(animName);
     }
+
+    public void ChangeSpeedOfAnimation(string animName, float speed = 1f)
+    {
+        animationComponent[animName].speed = speed;
+    }
     private void SetAnimationLoopWrapMode(string animName)
     {
         for (int i = 0; i < animationClips.Length; i++)
