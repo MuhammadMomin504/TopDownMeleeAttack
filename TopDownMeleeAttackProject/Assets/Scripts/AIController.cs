@@ -7,12 +7,14 @@ public class AIController : MovementController
     #region Private_Variables
 
     private Vector3 myWantedPosition = default;
+    private float remainingDistance = 0f;
     
     #endregion
 
     #region Exposed_Variables
 
     [SerializeField] private Transform target = default;
+    [SerializeField] private float attackDistance = 1f;
     
 
     #endregion
@@ -26,29 +28,39 @@ public class AIController : MovementController
     private void Awake()
     {
         base.Awake();
-        Debug.Log("Ai Awake is called");
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        PlayAnimation(Constants.Animations.Idle);
+        //PlayAnimation(Constants.Animations.Idle);
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        remainingDistance = CalculateDistance();
+        if (remainingDistance < attackDistance)
+        {
+            Attack();
+        }
+        if(IsAttacking)
+            return;
+        
         base.Update();
-        myWantedPosition = target.position;
-        UpdateWantedPosition(myWantedPosition);
+        FindTarget();
         transform.position = Vector3.MoveTowards(transform.position, myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
         SetRotation();
+
     }
 
     private void FindTarget()
     {
         //Find the vector from the source to the target and move the enemy in that direction
+        myWantedPosition = target.position;
+        UpdateWantedPosition(myWantedPosition);
     }
 
     private float CalculateDistance()
@@ -60,5 +72,10 @@ public class AIController : MovementController
     private void SetRotation()
     {
         transform.LookAt(target);
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
     }
 }

@@ -1262,6 +1262,7 @@ MonoBehaviour:
   movementSpeed: 5
   walkAnimationSpeed: 1
   target: {fileID: 805435703}
+  attackDistance: 3.5
 --- !u!4 &2117792656
 Transform:
   m_ObjectHideFlags: 0

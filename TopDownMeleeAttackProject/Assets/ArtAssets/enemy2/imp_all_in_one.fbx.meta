@@ -91,7 +91,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 225
     - serializedVersion: 16
-      name: Attack
+      name: MeleeAttack
       takeName: Take 001
       internalID: -3291206362154003629
       firstFrame: 678
