@@ -19,7 +19,6 @@ public class PlayerController : MovementController
     private Quaternion targetRotation = default;
     private Vector3 myWantedPosition = default;
     private Health healthController = default;
-    //private float yPosition = 0f;
 
     #endregion
     
@@ -38,7 +37,6 @@ public class PlayerController : MovementController
         base.Awake();
         healthController = GetComponent<Health>();
         healthController.Init();
-        //yPosition = transform.position.y;
     }
 
     // Start is called before the first frame update
@@ -51,6 +49,9 @@ public class PlayerController : MovementController
     // Update is called once per frame
     void Update()
     {
+        if(IsDead)
+            return;
+        
         if(IsAttacking) //Stop taking inputs if attack animation is running
             return;
         
@@ -133,7 +134,7 @@ public class PlayerController : MovementController
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 6 && IsAttacking && !other.gameObject.GetComponent<AIController>().IsAttacking)
+        if (other.gameObject.layer == 6 && IsAttacking && !other.gameObject.GetComponent<AIController>().IsAttacking && !other.gameObject.GetComponent<AIController>().IsDead)
         {
             //Player's hand collided with enemy, if this is true, damage the enemy
             Debug.Log("Player attacked Enemy =  " + other.gameObject.name);
@@ -145,7 +146,17 @@ public class PlayerController : MovementController
     {
         base.TakeHit(damageAmount);
         healthController.DeductHealth(damageAmount);
+        if (healthController.CurrentHealth <= 0)
+        {
+            Death();
+        }
         
+    }
+
+    public override void Death()
+    {
+        base.Death();
+        Debug.Log("Player is Dead...");
     }
 
     void RotateUsingMouse()

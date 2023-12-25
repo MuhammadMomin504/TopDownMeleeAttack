@@ -6,7 +6,6 @@ public class InputManager : MonoBehaviour
 {
     public static bool left = false;
     public static bool right = false;
-    public static bool jump = false;
     public static bool backward = false;
     public static bool forward = false;
     public static bool mouseClicked = false;
@@ -14,15 +13,13 @@ public class InputManager : MonoBehaviour
     
     private bool leftButton = false;
     private bool rightButton = false;
-    private bool jumpButton = false;
     private bool backwardButton = false;
     private bool forwardButton = false;
     private bool mouseButton = false;
 
 
-    public float leftFloat = 0f;
+    private float leftFloat = 0f;
     private float rightFloat = 0f;
-    private float jumpFloat = 0f;
     private float backwardFloat = 0f;
     private float forwardFloat = 0f;
     private float mouseClickedFloat = 0f;
@@ -36,7 +33,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             mouseButton = true;
             mouseClickedFloat = 0.1f;
@@ -58,10 +55,6 @@ public class InputManager : MonoBehaviour
         {
             backwardButton = true;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jumpButton = true;
-        }
 
         if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
         {
@@ -79,11 +72,8 @@ public class InputManager : MonoBehaviour
         {
             backwardButton = false;
         }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            jumpButton = false;
-        }
-        if (Input.GetMouseButtonUp(0))
+        
+        if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
         {
             mouseButton = false;
         }
@@ -92,8 +82,6 @@ public class InputManager : MonoBehaviour
             leftFloat = 1.0f;
         if (rightButton)
             rightFloat = 1.0f;
-        if (jumpButton)
-            jumpFloat = 1.0f;
         if (backwardButton)
             backwardFloat = 1.0f;
         if (forwardButton)
@@ -103,7 +91,6 @@ public class InputManager : MonoBehaviour
         
         left = leftFloat > 0.05f;
         right = rightFloat > 0.05f;
-        jump = jumpFloat > 0.05f;
         backward = backwardFloat > 0.05f;
         forward = forwardFloat > 0.05f;
         mouseClicked = mouseClickedFloat > 0.05f;
@@ -114,7 +101,6 @@ public class InputManager : MonoBehaviour
         //Reset values to zero
         leftFloat = Mathf.MoveTowards(leftFloat, 0.0f, Time.deltaTime * 25.0f);
         rightFloat = Mathf.MoveTowards(rightFloat, 0.0f, Time.deltaTime * 25.0f);
-        jumpFloat = Mathf.MoveTowards(jumpFloat, 0.0f, Time.deltaTime * 25.0f);
         backwardFloat = Mathf.MoveTowards(backwardFloat, 0.0f, Time.deltaTime * 25.0f);
         forwardFloat = Mathf.MoveTowards(forwardFloat, 0.0f, Time.deltaTime * 25.0f);
         mouseClickedFloat = Mathf.MoveTowards(mouseClickedFloat, 0.0f, Time.deltaTime * 25.0f);
@@ -125,7 +111,6 @@ public class InputManager : MonoBehaviour
             rightButton = false;
             forwardButton = false;
             backwardButton = false;
-            jumpButton = false;
             mouseButton = false;
         }
        

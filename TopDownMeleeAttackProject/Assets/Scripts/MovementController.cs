@@ -17,8 +17,9 @@ public class MovementController : AnimationController
     private bool isWalkState = false;
     private bool isIdleState = false;
     private Vector3 wantedPosition = default;
-    public bool isAttacking = false;
+    private bool isAttacking = false;
     private float yClampedPosition = 0f;
+    private bool isDead = false;
     
     #endregion
 
@@ -50,6 +51,8 @@ public class MovementController : AnimationController
     public bool IsAttacking => isAttacking;
     public Rigidbody MyRigidBody => myRigidBody;
 
+    public bool IsDead => isDead;
+
     #endregion
 
     public void Awake()
@@ -73,9 +76,12 @@ public class MovementController : AnimationController
     // Update is called once per frame
     public void Update()
     {
+        if(isDead)
+            return;
+        
         base.Update();
         transform.position = new Vector3(transform.position.x, yClampedPosition, transform.position.z);
-        if (wantedPosition != Vector3.zero)
+        if (wantedPosition != Vector3.zero && !isDead)
         {
             currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
         }
@@ -90,13 +96,14 @@ public class MovementController : AnimationController
             ChangeSpeedOfAnimation(Constants.Animations.Walk, walkAnimationSpeed);
             isWalkState = true;
             isIdleState = false;
+            Debug.Log("Walk State");
         }
         else if (currentMovementSpeed < 1f && !isIdleState)
         {
             isWalkState = false;
             isIdleState = true;
             SwitchToIdleAnimation();
-            Debug.Log("Idle");
+            Debug.Log("Idle State");
         }
         
     }
@@ -117,6 +124,11 @@ public class MovementController : AnimationController
 
     }
 
+    public override void SwtichAnimation(string animName)
+    {
+        base.SwtichAnimation(animName);
+    }
+
     public virtual void Attack()
     {
         isAttacking = true;
@@ -125,22 +137,46 @@ public class MovementController : AnimationController
         StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.MeleeAttack));
     }
 
+    public virtual void Death()
+    {
+        isDead = true;
+        SwtichAnimation(Constants.Animations.Death);
+        StartCoroutine("DisableCharacterAfterDeath");
+
+    }
+
     public virtual void TakeHit(float damageAmount  = 0f)
     {
-        SwtichAnimation(Constants.Animations.Hit);
-        StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
-        StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.Hit));
+        if (!isDead)
+        {
+            SwtichAnimation(Constants.Animations.Hit);
+            StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
+            StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.Hit));
+            
+        }
     }
+    private IEnumerator DisableCharacterAfterDeath()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Disable character");
+        gameObject.SetActive(false);
+        
+    }
+   
 
     private IEnumerator PlayPreviousAnimationWhenCurrentAnimationCompletes(float animationLength)
     {
         yield return new WaitForSeconds(animationLength);
-        if(isIdleState)
-            SwitchToIdleAnimation();
-        else if (isWalkState)
-            SwitchToWalkAnimation();
+        if (!isDead)
+        {
+            if(isIdleState)
+                SwitchToIdleAnimation();
+            else if (isWalkState)
+                SwitchToWalkAnimation();
 
-        isAttacking = false;
+            isAttacking = false;
+            
+        }
     }
     
     
