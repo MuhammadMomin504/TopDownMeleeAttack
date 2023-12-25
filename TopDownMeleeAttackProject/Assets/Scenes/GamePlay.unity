@@ -1179,6 +1179,7 @@ MonoBehaviour:
   character: {fileID: 0}
   animationClips: []
   loopAnimationClips: []
+  isAttacking: 0
   movementSpeed: 10
   walkAnimationSpeed: 1
 --- !u!4 &1844924124
@@ -1209,7 +1210,7 @@ GameObject:
   - component: {fileID: 2117792655}
   - component: {fileID: 2117792654}
   - component: {fileID: 2117792657}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,9 +1257,11 @@ MonoBehaviour:
   - {fileID: -3291206362154003629, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
   - {fileID: 644589263403131068, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
   - {fileID: -1493303027246044120, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
+  - {fileID: -7727135423134997463, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
   loopAnimationClips:
   - {fileID: 9067093048684652814, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  isAttacking: 0
   movementSpeed: 5
   walkAnimationSpeed: 1
   target: {fileID: 805435703}
@@ -1304,7 +1307,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 20
   m_CollisionDetection: 0
 --- !u!4 &25794399931368408
 Transform:
@@ -1397,6 +1400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8548959589102855541}
+  - component: {fileID: 8548959589102855542}
   m_Layer: 0
   m_Name: Character1_LeftHand
   m_TagString: Untagged
@@ -2105,6 +2109,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3502554354272890230, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3502554354272890230, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+      propertyPath: m_Constraints
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255494224557286109, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7884181282135743343, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2148,6 +2164,10 @@ PrefabInstance:
     - target: {fileID: 8988449214348352436, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988449214348352436, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2843,6 +2863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7672713311331805382}
+  - component: {fileID: 7672713311331805383}
   m_Layer: 0
   m_Name: Character1_RightHand
   m_TagString: Untagged
@@ -3105,6 +3126,27 @@ Transform:
   - {fileID: 8888204005959891725}
   m_Father: {fileID: 6029261870610810282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7672713311331805383
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100045139617420580}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.18
+  m_Center: {x: 0.21, y: -0.03, z: 0.04}
 --- !u!4 &7855495387500418822
 Transform:
   m_ObjectHideFlags: 0
@@ -3210,6 +3252,27 @@ Transform:
   - {fileID: 119622413207735221}
   m_Father: {fileID: 4384862774816275972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8548959589102855542
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337376896693963804}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.18
+  m_Center: {x: -0.21, y: -0.03, z: 0.04}
 --- !u!33 &8568763976320969407
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3370,7 +3433,7 @@ Animation:
   - {fileID: -7727135423134997463, guid: c56099e27ed5547a69c403533b44b3af, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_CullingType: 0
 --- !u!4 &8804160106376369038
 Transform:

@@ -18,6 +18,7 @@ public class PlayerController : MovementController
     private Vector3 lastMousePosition = default;
     private Quaternion targetRotation = default;
     private Vector3 myWantedPosition = default;
+    //private float yPosition = 0f;
 
     #endregion
     
@@ -33,6 +34,7 @@ public class PlayerController : MovementController
     private void Awake()
     {
         base.Awake();
+        //yPosition = transform.position.y;
     }
 
     // Start is called before the first frame update
@@ -97,6 +99,7 @@ public class PlayerController : MovementController
         
       
         transform.position = Vector3.MoveTowards(transform.position, transform.position + myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
+        // transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
         SetRotation();
         //RotateUsingMouse();
 
@@ -124,6 +127,15 @@ public class PlayerController : MovementController
         myWantedPosition = Vector3.zero;
         base.Attack();
         
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 6 && IsAttacking && !other.gameObject.GetComponent<AIController>().IsAttacking)
+        {
+            //Player's hand collided with enemy, if this is true, damage the enemy
+            Debug.Log("Player attacked Enemy =  " + other.gameObject.name);
+        }
     }
 
     void RotateUsingMouse()

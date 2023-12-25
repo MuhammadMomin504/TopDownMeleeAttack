@@ -17,8 +17,8 @@ public class MovementController : AnimationController
     private bool isWalkState = false;
     private bool isIdleState = false;
     private Vector3 wantedPosition = default;
-    private bool isAttacking = false;
-    
+    public bool isAttacking = false;
+    private float yClampedPosition = 0f;
     
     #endregion
 
@@ -56,6 +56,7 @@ public class MovementController : AnimationController
     {
         myRigidBody = GetComponent<Rigidbody>();
         Init();
+        yClampedPosition = transform.position.y;
     }
 
     protected override void Init()
@@ -73,6 +74,7 @@ public class MovementController : AnimationController
     public void Update()
     {
         base.Update();
+        transform.position = new Vector3(transform.position.x, yClampedPosition, transform.position.z);
         if (wantedPosition != Vector3.zero)
         {
             currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);

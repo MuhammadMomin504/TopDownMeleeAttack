@@ -8,7 +8,7 @@ public class AIController : MovementController
 
     private Vector3 myWantedPosition = default;
     private float remainingDistance = 0f;
-    
+    //private float yPosition = 0f;
     #endregion
 
     #region Exposed_Variables
@@ -28,6 +28,7 @@ public class AIController : MovementController
     private void Awake()
     {
         base.Awake();
+        //yPosition = transform.position.y;
     }
     
     // Start is called before the first frame update
@@ -52,6 +53,7 @@ public class AIController : MovementController
         base.Update();
         FindTarget();
         transform.position = Vector3.MoveTowards(transform.position, myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
+        //transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
         SetRotation();
 
     }
@@ -76,6 +78,17 @@ public class AIController : MovementController
 
     public override void Attack()
     {
+        ChangeSpeedOfAnimation(Constants.Animations.MeleeAttack, 0.5f);
         base.Attack();
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 7 && IsAttacking && !other.gameObject.GetComponent<PlayerController>().IsAttacking)
+        {
+            //Enemy's hand collided with player, if this is true, damage the player
+            Debug.Log("Enemy attacked player = " + other.gameObject.name);
+            //other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
     }
 }
