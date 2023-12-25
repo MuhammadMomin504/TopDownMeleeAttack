@@ -90,7 +90,7 @@ public class PlayerController : MovementController
             Debug.Log("Attack");
             Attack();
         }
-        
+
         if (!rightInput && !leftInput && !forwardInput && !backwardInput)
         {
             myWantedPosition = Vector3.zero;

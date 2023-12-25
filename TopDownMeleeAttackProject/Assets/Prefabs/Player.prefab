@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 955115183527672021}
   - component: {fileID: 5548937311013311673}
   - component: {fileID: 3502554354272890230}
-  m_Layer: 0
+  - component: {fileID: 4351899217562339853}
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,11 +51,15 @@ MonoBehaviour:
   character: {fileID: 8996680148071281951}
   animationClips:
   - {fileID: 1465369574596688972, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 644589263403131068, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: -7727135423134997463, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   loopAnimationClips:
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  isAttacking: 0
   movementSpeed: 10
   walkAnimationSpeed: 3.5
+  damageAmount: 20
 --- !u!136 &5548937311013311673
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -103,8 +108,22 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &4351899217562339853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988449214348352436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78c17c2c32a4bd78a48263964a9c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalHealth: 100
+  currentLerpHealth: 0
 --- !u!1001 &8885630174845309684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,6 +329,8 @@ Animation:
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 1465369574596688972, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: 644589263403131068, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
+  - {fileID: -7727135423134997463, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

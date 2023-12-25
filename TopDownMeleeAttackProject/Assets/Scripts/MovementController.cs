@@ -127,7 +127,9 @@ public class MovementController : AnimationController
 
     public virtual void TakeHit(float damageAmount  = 0f)
     {
-        
+        SwtichAnimation(Constants.Animations.Hit);
+        StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
+        StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.Hit));
     }
 
     private IEnumerator PlayPreviousAnimationWhenCurrentAnimationCompletes(float animationLength)

@@ -88,6 +88,7 @@ public class AIController : MovementController
     public override void TakeHit(float damageAmount)
     {
         base.TakeHit(damageAmount);
+        healthController.DeductHealth(damageAmount);
     }
     
     private void OnCollisionEnter(Collision other)
