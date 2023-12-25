@@ -82,12 +82,18 @@ public class AIController : MovementController
         base.Attack();
     }
     
+    public override void TakeHit()
+    {
+        base.TakeHit();
+    }
+    
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == 7 && IsAttacking && !other.gameObject.GetComponent<PlayerController>().IsAttacking)
         {
             //Enemy's hand collided with player, if this is true, damage the player
             Debug.Log("Enemy attacked player = " + other.gameObject.name);
+            other.gameObject.GetComponent<PlayerController>().TakeHit();
             //other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }

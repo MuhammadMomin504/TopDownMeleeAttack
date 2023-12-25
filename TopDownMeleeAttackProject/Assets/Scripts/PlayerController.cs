@@ -135,7 +135,13 @@ public class PlayerController : MovementController
         {
             //Player's hand collided with enemy, if this is true, damage the enemy
             Debug.Log("Player attacked Enemy =  " + other.gameObject.name);
+            other.gameObject.GetComponent<AIController>().TakeHit();
         }
+    }
+
+    public override void TakeHit()
+    {
+        base.TakeHit();
     }
 
     void RotateUsingMouse()
