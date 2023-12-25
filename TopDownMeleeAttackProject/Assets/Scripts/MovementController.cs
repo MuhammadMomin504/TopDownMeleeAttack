@@ -125,7 +125,7 @@ public class MovementController : AnimationController
         StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.MeleeAttack));
     }
 
-    public virtual void TakeHit()
+    public virtual void TakeHit(float damageAmount  = 0f)
     {
         
     }

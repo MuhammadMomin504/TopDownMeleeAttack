@@ -399,11 +399,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &805435701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8988449214348352436, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+  m_PrefabInstance: {fileID: 3267591110644554258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &805435703 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7884181282135743343, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
   m_PrefabInstance: {fileID: 3267591110644554258}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &805435706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805435701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78c17c2c32a4bd78a48263964a9c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalHealth: 100
+  currentLerpHealth: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1201,7 @@ MonoBehaviour:
   isAttacking: 0
   movementSpeed: 10
   walkAnimationSpeed: 1
+  damageAmount: 20
 --- !u!4 &1844924124
 Transform:
   m_ObjectHideFlags: 0
@@ -1210,6 +1230,7 @@ GameObject:
   - component: {fileID: 2117792655}
   - component: {fileID: 2117792654}
   - component: {fileID: 2117792657}
+  - component: {fileID: 2117792658}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -1266,6 +1287,7 @@ MonoBehaviour:
   walkAnimationSpeed: 1
   target: {fileID: 805435703}
   attackDistance: 3.5
+  damageAmount: 20
 --- !u!4 &2117792656
 Transform:
   m_ObjectHideFlags: 0
@@ -1309,6 +1331,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 20
   m_CollisionDetection: 0
+--- !u!114 &2117792658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117792653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78c17c2c32a4bd78a48263964a9c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalHealth: 100
+  currentLerpHealth: 0
 --- !u!4 &25794399931368408
 Transform:
   m_ObjectHideFlags: 0
@@ -2110,12 +2146,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3502554354272890230, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
-      propertyPath: m_Mass
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3502554354272890230, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
       propertyPath: m_Constraints
-      value: 20
+      value: 116
       objectReference: {fileID: 0}
     - target: {fileID: 6255494224557286109, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
       propertyPath: m_AnimatePhysics
@@ -2172,7 +2204,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8988449214348352436, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 805435706}
   m_SourcePrefab: {fileID: 100100000, guid: 59e0959b79cc44e80ba0029ec4da8cee, type: 3}
 --- !u!4 &3277342619779659717
 Transform:

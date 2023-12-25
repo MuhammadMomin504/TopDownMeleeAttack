@@ -18,12 +18,14 @@ public class PlayerController : MovementController
     private Vector3 lastMousePosition = default;
     private Quaternion targetRotation = default;
     private Vector3 myWantedPosition = default;
+    private Health healthController = default;
     //private float yPosition = 0f;
 
     #endregion
     
     #region Exposed_Variables
-    
+
+    [SerializeField] private float damageAmount = 20f;
 
     #endregion
     
@@ -34,6 +36,8 @@ public class PlayerController : MovementController
     private void Awake()
     {
         base.Awake();
+        healthController = GetComponent<Health>();
+        healthController.Init();
         //yPosition = transform.position.y;
     }
 
@@ -103,8 +107,6 @@ public class PlayerController : MovementController
         SetRotation();
         //RotateUsingMouse();
 
-        
-
     }
 
     private void SetRotation()
@@ -135,13 +137,15 @@ public class PlayerController : MovementController
         {
             //Player's hand collided with enemy, if this is true, damage the enemy
             Debug.Log("Player attacked Enemy =  " + other.gameObject.name);
-            other.gameObject.GetComponent<AIController>().TakeHit();
+            other.gameObject.GetComponent<AIController>().TakeHit(damageAmount);
         }
     }
 
-    public override void TakeHit()
+    public override void TakeHit(float damageAmount = 0f)
     {
-        base.TakeHit();
+        base.TakeHit(damageAmount);
+        healthController.DeductHealth(damageAmount);
+        
     }
 
     void RotateUsingMouse()

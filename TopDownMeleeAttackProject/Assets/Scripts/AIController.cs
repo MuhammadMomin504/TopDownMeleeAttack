@@ -8,6 +8,7 @@ public class AIController : MovementController
 
     private Vector3 myWantedPosition = default;
     private float remainingDistance = 0f;
+    private Health healthController = default;
     //private float yPosition = 0f;
     #endregion
 
@@ -15,7 +16,7 @@ public class AIController : MovementController
 
     [SerializeField] private Transform target = default;
     [SerializeField] private float attackDistance = 1f;
-    
+    [SerializeField] private float damageAmount = 20f;
 
     #endregion
 
@@ -28,6 +29,8 @@ public class AIController : MovementController
     private void Awake()
     {
         base.Awake();
+        healthController = GetComponent<Health>();
+        healthController.Init();
         //yPosition = transform.position.y;
     }
     
@@ -82,9 +85,9 @@ public class AIController : MovementController
         base.Attack();
     }
     
-    public override void TakeHit()
+    public override void TakeHit(float damageAmount)
     {
-        base.TakeHit();
+        base.TakeHit(damageAmount);
     }
     
     private void OnCollisionEnter(Collision other)
@@ -93,7 +96,7 @@ public class AIController : MovementController
         {
             //Enemy's hand collided with player, if this is true, damage the player
             Debug.Log("Enemy attacked player = " + other.gameObject.name);
-            other.gameObject.GetComponent<PlayerController>().TakeHit();
+            other.gameObject.GetComponent<PlayerController>().TakeHit(damageAmount);
             //other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
