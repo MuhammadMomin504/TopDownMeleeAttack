@@ -134,7 +134,7 @@ public class PlayerController : MovementController
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 6 && IsAttacking && !other.gameObject.GetComponent<AIController>().IsAttacking && !other.gameObject.GetComponent<AIController>().IsDead)
+        if (other.gameObject.layer == 6 && IsAttacking && !other.gameObject.GetComponent<AIController>().IsDead)
         {
             //Player's hand collided with enemy, if this is true, damage the enemy
             Debug.Log("Player attacked Enemy =  " + other.gameObject.name);
