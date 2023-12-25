@@ -8,8 +8,9 @@ public partial class Constants
     {
         public static string Idle = "Idle";
         public const string Walk = "Walk";
-        public const string Dead = "Dead";
+        public const string Death = "Death";
         public const string MeleeAttack = "MeleeAttack";
-       
+        public const string Hit = "Hit";
+
     }
 }

@@ -17,13 +17,14 @@ public class MovementController : AnimationController
     private bool isWalkState = false;
     private bool isIdleState = false;
     private Vector3 wantedPosition = default;
-    private bool isAttacking = false;
-    
+    public bool isAttacking = false;
+    private float yClampedPosition = 0f;
     
     #endregion
 
     #region Exposed_Variables
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float walkAnimationSpeed = 1f;
 
     #endregion
 
@@ -55,6 +56,7 @@ public class MovementController : AnimationController
     {
         myRigidBody = GetComponent<Rigidbody>();
         Init();
+        yClampedPosition = transform.position.y;
     }
 
     protected override void Init()
@@ -72,6 +74,7 @@ public class MovementController : AnimationController
     public void Update()
     {
         base.Update();
+        transform.position = new Vector3(transform.position.x, yClampedPosition, transform.position.z);
         if (wantedPosition != Vector3.zero)
         {
             currentMovementSpeed = Mathf.MoveTowards(currentMovementSpeed, movementSpeed, Time.deltaTime * 30f);
@@ -84,7 +87,7 @@ public class MovementController : AnimationController
         if (currentMovementSpeed >= 1f && !isWalkState)
         {
             SwitchToWalkAnimation();
-            ChangeSpeedOfAnimation(Constants.Animations.Walk, 3.5f);
+            ChangeSpeedOfAnimation(Constants.Animations.Walk, walkAnimationSpeed);
             isWalkState = true;
             isIdleState = false;
         }
@@ -120,6 +123,13 @@ public class MovementController : AnimationController
         SwtichAnimation(Constants.Animations.MeleeAttack);
         StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
         StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.MeleeAttack));
+    }
+
+    public virtual void TakeHit(float damageAmount  = 0f)
+    {
+        SwtichAnimation(Constants.Animations.Hit);
+        StopCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes");
+        StartCoroutine("PlayPreviousAnimationWhenCurrentAnimationCompletes", GetAnimationLength(Constants.Animations.Hit));
     }
 
     private IEnumerator PlayPreviousAnimationWhenCurrentAnimationCompletes(float animationLength)
