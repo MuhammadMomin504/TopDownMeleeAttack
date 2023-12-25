@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
 
     #region Getters
 
-    public float TotalHealth => totalHealth;
+    public float CurrentHealth => currentHealth;
     
 
     #endregion
@@ -59,7 +59,7 @@ public class Health : MonoBehaviour
     public void DeductHealth(float deductAmount)
     {
         finalHealth = currentHealth - deductAmount;
-        finalHealth = Mathf.Clamp(finalHealth, 0f, TotalHealth);
+        finalHealth = Mathf.Clamp(finalHealth, 0f, totalHealth);
         currentHealth = finalHealth;
         shouldDeductHealth = true;
     }

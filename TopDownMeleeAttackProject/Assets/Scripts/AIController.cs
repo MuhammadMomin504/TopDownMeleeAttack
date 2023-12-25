@@ -9,12 +9,11 @@ public class AIController : MovementController
     private Vector3 myWantedPosition = default;
     private float remainingDistance = 0f;
     private Health healthController = default;
-    //private float yPosition = 0f;
+    private Transform target = default;
     #endregion
 
     #region Exposed_Variables
 
-    [SerializeField] private Transform target = default;
     [SerializeField] private float attackDistance = 1f;
     [SerializeField] private float damageAmount = 20f;
 
@@ -31,39 +30,55 @@ public class AIController : MovementController
         base.Awake();
         healthController = GetComponent<Health>();
         healthController.Init();
+        target = GameplayManager.instance.Target;
         //yPosition = transform.position.y;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        //PlayAnimation(Constants.Animations.Idle);
+        
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        remainingDistance = CalculateDistance();
-        if (remainingDistance < attackDistance)
-        {
-            Attack();
-        }
-        if(IsAttacking)
+        if(IsDead)
             return;
         
         base.Update();
         FindTarget();
+        
+        if (!GameplayManager.instance.IsPlayerDead())
+        {
+            remainingDistance = CalculateDistance();
+            if (remainingDistance < attackDistance)
+            {
+                Attack();
+            }
+            if(IsAttacking)
+                return;
+            
+        }
+        else
+        {
+            if (CalculateDistance() < 3f)
+            {
+                CurrentMovementSpeed = 0f;
+            }
+            
+        }
+        
+       
         transform.position = Vector3.MoveTowards(transform.position, myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
-        //transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
         SetRotation();
 
     }
 
     private void FindTarget()
     {
-        //Find the vector from the source to the target and move the enemy in that direction
+        //Find the target and move the enemy in that direction
         myWantedPosition = target.position;
         UpdateWantedPosition(myWantedPosition);
     }
@@ -89,16 +104,38 @@ public class AIController : MovementController
     {
         base.TakeHit(damageAmount);
         healthController.DeductHealth(damageAmount);
+        if (healthController.CurrentHealth <= 0)
+        {
+            Death();
+        }
     }
-    
+
+    public override void Death()
+    {
+        base.Death();
+    }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 7 && IsAttacking && !other.gameObject.GetComponent<PlayerController>().IsAttacking)
+        if (other.gameObject.layer == 7 && IsAttacking && !other.gameObject.GetComponent<PlayerController>().IsAttacking && !other.gameObject.GetComponent<PlayerController>().IsDead)
         {
             //Enemy's hand collided with player, if this is true, damage the player
             Debug.Log("Enemy attacked player = " + other.gameObject.name);
             other.gameObject.GetComponent<PlayerController>().TakeHit(damageAmount);
-            //other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+            if (other.gameObject.GetComponent<PlayerController>().IsDead)
+            {
+                Debug.Log("Reset target");
+                ResetTarget();
+            }
+            
         }
+    }
+
+    private void ResetTarget()
+    {
+        //Target has been destroyed, need to assign new target but for now target is null so assign the center point in world as target.
+        target = GameplayManager.instance.EnemySpawnPosition;
+        //SwtichAnimation(Constants.Animations.Walk);
+        
     }
 }
