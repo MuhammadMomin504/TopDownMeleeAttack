@@ -56,9 +56,6 @@ MonoBehaviour:
   loopAnimationClips:
   - {fileID: -3291206362154003629, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
   - {fileID: 9067093048684652814, guid: f27dd78b4147f47c38e86f1cccc1b359, type: 3}
-  currentMovementSpeed: 0
-  isAttacking: 0
-  isDead: 0
   movementSpeed: 10
   walkAnimationSpeed: 3.5
   damageAmount: 10
@@ -110,7 +107,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &4351899217562339853
 MonoBehaviour:
@@ -124,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e78c17c2c32a4bd78a48263964a9c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
   totalHealth: 100
   currentLerpHealth: 0
 --- !u!1001 &8885630174845309684

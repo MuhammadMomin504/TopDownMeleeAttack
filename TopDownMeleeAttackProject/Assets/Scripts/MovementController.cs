@@ -157,7 +157,7 @@ public class MovementController : AnimationController
     }
     private IEnumerator DisableCharacterAfterDeath()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         Debug.Log("Disable character");
         gameObject.SetActive(false);
         
