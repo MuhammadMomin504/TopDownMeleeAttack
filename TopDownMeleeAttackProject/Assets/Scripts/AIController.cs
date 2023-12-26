@@ -30,14 +30,14 @@ public class AIController : MovementController
         base.Awake();
         healthController = GetComponent<Health>();
         healthController.Init();
-        target = GameplayManager.instance.Target;
         //yPosition = transform.position.y;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = GameplayManager.instance.Target;
+
         
     }
 
