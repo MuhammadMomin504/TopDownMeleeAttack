@@ -52,6 +52,12 @@ public class MovementController : AnimationController
     public Rigidbody MyRigidBody => myRigidBody;
 
     public bool IsDead => isDead;
+    
+    public float MovementSpeed
+    {
+        get { return movementSpeed; }
+        set { movementSpeed = value; }
+    }
 
     #endregion
 

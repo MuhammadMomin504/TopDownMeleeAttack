@@ -134,7 +134,7 @@ public class AIController : MovementController
     private void ResetTarget()
     {
         //Target has been destroyed, need to assign new target but for now target is null so assign the center point in world as target.
-        target = GameplayManager.instance.EnemySpawnPosition;
+        target = GameplayManager.instance.EnemySpawnPosition[Random.Range(0, GameplayManager.instance.EnemySpawnPosition.Length)];
         //SwtichAnimation(Constants.Animations.Walk);
         
     }
