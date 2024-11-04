@@ -19,8 +19,11 @@ public class PlayerController : MovementController
     private Quaternion targetRotation = default;
     private Vector3 myWantedPosition = default;
     private Health healthController = default;
+    private Quaternion currentRotation = default;
 
     #endregion
+
+    public Transform testObject = default;
     
     #region Exposed_Variables
 
@@ -104,9 +107,9 @@ public class PlayerController : MovementController
         
       
         transform.position = Vector3.MoveTowards(transform.position, transform.position + myWantedPosition, Time.deltaTime * CurrentMovementSpeed);
-        // transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
-        SetRotation();
-        //RotateUsingMouse();
+        //transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
+        //SetRotation();
+        RotateUsingMouse();
 
     }
 
@@ -161,6 +164,83 @@ public class PlayerController : MovementController
 
     void RotateUsingMouse()
     {
+        // Get the mouse position in screen coordinates
+        Camera cam = Camera.main;
+        Vector3 mousePosition = Input.mousePosition;
+        Vector3 worldPoint = cam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 20f));//
+        Vector3 directionVector = worldPoint - cam.transform.position;
+        directionVector = directionVector.normalized;
+        float yDistance = cam.transform.position.y;
+        float ratio = yDistance / Mathf.Abs(directionVector.y);
+        worldPoint = cam.transform.position + directionVector * ratio;
+        
+        // Debug.Log("Direction vector Y = " + Mathf.Abs(directionVector.y));
+        //
+        // Debug.Log("Ratio  = " + ratio);
+        
+        
+        testObject.transform.position = worldPoint;
+        //testObject.transform.position = new Vector3(testObject.position.x, 0f, testObject.position.z);
+        // Calculate the direction from the object to the mouse position
+         Vector3 direction = (worldPoint - transform.position);
+        //Vector3 direction = (transform.position - worldMousePosition);
+
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
+        Quaternion currentQuaternion = Quaternion.Euler(0f, angle, 0f);
+        //Quaternion currentQuaternion = Quaternion.AngleAxis(angle, Vector3.up);
+        //Debug.Log("Current Angle = " + angle);
+
+        currentRotation = Quaternion.Lerp(currentRotation, currentQuaternion, Time.deltaTime * 5f);
+        //Debug.Log("Current Rotation = " + currentQuaternion);
+        
+        // transform.rotation = Quaternion.Euler(0f, currentRotation, 0f);
+        transform.rotation = currentRotation;
+        
+        //
+        // Vector3 currentMousePosition = Input.mousePosition;
+        //
+        // Vector3 worldCurrentMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(currentMousePosition.x, 
+        //     currentMousePosition.y, Camera.main.transform.position.z - transform.position.z));
+        //
+        // transform.LookAt(worldCurrentMousePosition, Vector3.right);
+        // transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
+        //
+        // Vector3 currentDirection = (worldCurrentMousePosition - transform.position);
+        //
+        //  float currentMouseAngle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
+        //
+        //  float angleDelta = (angle - currentMouseAngle);
+        //
+        // Debug.Log("Angle = " + angleDelta);
+        //
+        // Quaternion rotation = Quaternion.AngleAxis(currentMouseAngle, Vector3.up);
+        
+        //transform.rotation = Quaternion.Euler(0f, 45, 0f);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
+        
+        //transform.Rotate(  new Vector3(0, (currentMouseAngle), 0));
+        
+        //lastMousePosition = Input.mousePosition;
+
+
+
+        // Calculate the angle between the direction and the forward vector
+        
+        
+        //transform.Rotate(  new Vector3(0, -angle, 0));
+
+        // // Create a quaternion rotation based on the angle
+         
+        //
+        // // Rotate the object towards the mouse position
+        //
+        
+        Debug.DrawLine(transform.position, worldPoint, Color.red);
+        
+        //Debug.DrawLine(transform.position, direction, Color.green);
+        
+        
         // Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Vector3 direction = mousePosition - transform.position;
         // float angle = Mathf.Atan2(direction.x, direction.y);
@@ -168,26 +248,30 @@ public class PlayerController : MovementController
         // //transform.Rotate(new Vector3(0, angle * Mathf.Rad2Deg, 0));
         // transform.Rotate(new Vector3(0, (-angle * Mathf.Rad2Deg), 0));
         // where is our center on screen?
-        Vector3 center = Camera.main.WorldToScreenPoint(transform.position);
+        
+        //Vector3 center = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, transform.position.z - Camera.main.transform.position.z));
+        // Vector3 center = Camera.main.WorldToScreenPoint(transform.position);
+       // Vector3 currPosition = Input.mousePosition;
+
+        
         
         // angle to previous finger
-        float anglePrevious = Mathf.Atan2(center.x - lastMousePosition.x, lastMousePosition.y - center.y);
-        //float anglePrevious = Mathf.Atan2(center.y - lastPosition.y, center.x - lastPosition.x);
+        //float anglePrevious = Mathf.Atan2(center.x - lastMousePosition.x, lastMousePosition.y - center.y);
+        //float anglePrevious = Mathf.Atan2(center.y - lastMousePosition.y, center.x - lastMousePosition.x);
         
-        Vector3 currPosition = Input.mousePosition;
         
         // angle to current finger
-        float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
-        //float angleNow = Mathf.Atan2(center.y - currPosition.y, center.x - currPosition.x);
+        //float angleNow = Mathf.Atan2(center.x - currPosition.x, currPosition.y - center.y);
+       // float angleNow = Mathf.Atan2(center.y - currPosition.y, center.x - currPosition.x);
         
-        lastMousePosition = currPosition;
+        //lastMousePosition = currPosition;
         
         // how different are those angles?
-        float angleDelta = (angleNow - anglePrevious);
+       // float angleDelta = (angleNow - anglePrevious);
         //float angleDelta = (anglePrevious - angleNow);
         //Debug.Log("angle = " + angleDelta * Mathf.Rad2Deg);
-        
-        transform.Rotate(  new Vector3(0, (-angleDelta * Mathf.Rad2Deg), 0));
+        //testObject.position = Camera.main.ScreenToWorldPoint(lastMousePosition);
+       // transform.Rotate(  new Vector3(0, (-angleDelta * Mathf.Rad2Deg), 0));
 
 
     }

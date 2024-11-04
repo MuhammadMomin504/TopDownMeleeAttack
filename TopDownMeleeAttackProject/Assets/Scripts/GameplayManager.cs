@@ -45,23 +45,23 @@ public class GameplayManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine( "SpawnEnemy");
+        //StartCoroutine( "SpawnEnemy");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!player.IsDead)
-        {
-            enemySpawnTimeElapsed += Time.deltaTime;
-
-            if (enemySpawnTimeElapsed > enemySpawnTime)
-            {
-                StartCoroutine( "SpawnEnemy");
-                enemySpawnTimeElapsed = 0f;
-            }
-            
-        }
+        // if (!player.IsDead)
+        // {
+        //     enemySpawnTimeElapsed += Time.deltaTime;
+        //
+        //     if (enemySpawnTimeElapsed > enemySpawnTime)
+        //     {
+        //         StartCoroutine( "SpawnEnemy");
+        //         enemySpawnTimeElapsed = 0f;
+        //     }
+        //     
+        // }
     }
 
     private IEnumerator SpawnEnemy()
