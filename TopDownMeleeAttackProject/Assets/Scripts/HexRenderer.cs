@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
 public struct Face
 {
     public List<Vector3> vertices { get; private set; }
@@ -29,6 +27,11 @@ public class HexRenderer : MonoBehaviour
     private Mesh m_mesh;
     private MeshFilter m_meshFilter;
     private MeshRenderer m_meshRenderer;
+    private List<Face> m_faces;
+    
+    [SerializeField] private float innerSize = 1f;
+    [SerializeField] private float outerSize = 2f;
+    [SerializeField] private float height = 1f;
     
     public Material material;
 
@@ -43,4 +46,89 @@ public class HexRenderer : MonoBehaviour
         m_meshFilter.mesh = m_mesh;
         m_meshRenderer.material = material;
     }
+
+    private void OnEnable()
+    {
+        DrawMesh();
+    }
+
+    public void OnValidate()
+    {
+        if(Application.isPlaying)
+            DrawMesh();
+    }
+
+    private void DrawMesh()
+    {
+        DrawFaces();
+        CombineFaces();
+    }
+
+    private void DrawFaces()
+    {
+        m_faces = new List<Face>();
+
+        //Top Faces
+        for (int point = 0; point < 6; point++)
+        {
+            m_faces.Add(CreateFace(innerSize, outerSize, height/ 2f, height/2f, point));
+        }
+    }
+
+    private void CombineFaces()
+    {
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+        List<Vector2> uvs = new List<Vector2>();
+
+        for (int i = 0; i < m_faces.Count; i++)
+        {
+            vertices.AddRange(m_faces[i].vertices);
+            uvs.AddRange(m_faces[i].uvs);
+            
+            int offset = (4 * i);
+            foreach (int triangle in m_faces[i].triangles)
+            {
+                triangles.Add(triangle + offset);
+            }
+        }
+
+        if (m_mesh)
+        {
+            m_mesh.vertices = vertices.ToArray();
+            m_mesh.triangles = triangles.ToArray();
+            m_mesh.uv = uvs.ToArray();
+            m_mesh.RecalculateNormals();
+        }
+        
+
+    }
+
+    private Face CreateFace(float innerRadius, float outerRadius, float heightA, float heightB, int point,
+        bool reverse = false)
+    {
+        
+        Vector3 pointA = GetPoint(innerRadius, heightB, point);
+        Vector3 pointB = GetPoint(innerRadius, heightB, (point < 5 ? point + 1 : 0));
+        Vector3 pointC = GetPoint(outerRadius, heightA, (point < 5 ? point + 1 : 0));
+        Vector3 pointD = GetPoint(outerRadius, heightA, point);
+        
+        List<Vector3> vertices = new List<Vector3>() {pointA, pointB, pointC, pointD};
+        List<int> triangles = new List<int>() {0,1,2,2,3,0 };
+        List<Vector2> uvs = new List<Vector2>() {new Vector2(0,0), new Vector2(1,0), new Vector2(1,1), new Vector2(0,1) };
+        
+        if(reverse)
+            vertices.Reverse();
+        
+        return new Face(vertices, triangles, uvs );
+    }
+
+    protected Vector3 GetPoint(float size, float height, int index)
+    {
+        float angle_Deg = 60 * index;
+        float angle_Rad = angle_Deg * Mathf.Deg2Rad;
+        return new Vector3(size * Mathf.Cos(angle_Rad), height, size * Mathf.Sin(angle_Rad));
+    }
+    
+    
 }
