@@ -32,6 +32,7 @@ public class HexRenderer : MonoBehaviour
     [SerializeField] private float innerSize = 1f;
     [SerializeField] private float outerSize = 2f;
     [SerializeField] private float height = 1f;
+    [SerializeField] private bool isFlatTopped = false;
     
     public Material material;
 
@@ -125,7 +126,7 @@ public class HexRenderer : MonoBehaviour
 
     protected Vector3 GetPoint(float size, float height, int index)
     {
-        float angle_Deg = 60 * index;
+        float angle_Deg = isFlatTopped ? 60 * index : 60 * index - 30f;
         float angle_Rad = angle_Deg * Mathf.Deg2Rad;
         return new Vector3(size * Mathf.Cos(angle_Rad), height, size * Mathf.Sin(angle_Rad));
     }
