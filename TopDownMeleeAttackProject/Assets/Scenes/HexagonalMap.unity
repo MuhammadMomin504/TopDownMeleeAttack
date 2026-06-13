@@ -339,9 +339,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb6b7e058f8e4129b3d3b6ce006a210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HexRenderer
-  innerSize: 1
+  innerSize: 0
   outerSize: 2
   height: 1
+  isFlatTopped: 0
   material: {fileID: 2100000, guid: ddde097fc705c4e99adcaaa1b4656ffd, type: 2}
 --- !u!23 &1537284326
 MeshRenderer:

@@ -74,6 +74,25 @@ public class HexRenderer : MonoBehaviour
         {
             m_faces.Add(CreateFace(innerSize, outerSize, height/ 2f, height/2f, point));
         }
+        
+        //bottom faces
+        for (int point = 0; point < 6; point++)
+        {
+            m_faces.Add(CreateFace(innerSize, outerSize, -height/ 2f, -height/2f, point, true));
+        }
+        
+        //Outer faces
+        for (int point = 0; point < 6; point++)
+        {
+            m_faces.Add(CreateFace(outerSize, outerSize, height/ 2f, -height/2f, point, true));
+        }
+        
+        //inner faces
+        for (int point = 0; point < 6; point++)
+        {
+            m_faces.Add(CreateFace(innerSize, innerSize, height/ 2f, -height/2f, point));
+        }
+        
     }
 
     private void CombineFaces()
