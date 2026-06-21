@@ -34,6 +34,30 @@ public class HexRenderer : MonoBehaviour
     [SerializeField] private float height = 1f;
     [SerializeField] private bool isFlatTopped = false;
     
+    
+    public float InnerSize 
+    {
+        get { return innerSize; }
+        set { innerSize = value; }
+    }
+    public float OuterSize 
+    {
+        get { return outerSize; }
+        set { outerSize = value; }
+    }
+    public float Height 
+    {
+        get { return height; }
+        set { height = value; }
+    }
+    public bool IsFlatTopped 
+    {
+        get { return isFlatTopped; }
+        set { isFlatTopped = value; }
+    }
+    
+    
+    
     public Material material;
 
     private void Awake()
@@ -59,7 +83,7 @@ public class HexRenderer : MonoBehaviour
             DrawMesh();
     }
 
-    private void DrawMesh()
+    public void DrawMesh()
     {
         DrawFaces();
         CombineFaces();
@@ -148,6 +172,11 @@ public class HexRenderer : MonoBehaviour
         float angle_Deg = isFlatTopped ? 60 * index : 60 * index - 30f;
         float angle_Rad = angle_Deg * Mathf.Deg2Rad;
         return new Vector3(size * Mathf.Cos(angle_Rad), height, size * Mathf.Sin(angle_Rad));
+    }
+    
+    public void SetMaterial(Material material)
+    {
+        m_meshRenderer.material = material;
     }
     
     
