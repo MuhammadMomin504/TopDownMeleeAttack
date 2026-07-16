@@ -42,7 +42,7 @@ public class VictoryScreenManager : MonoBehaviour
         ParticleSystem.MainModule temp = starParticle.main;
         temp.startSpeed = 2f;
 
-        yield return new WaitForSeconds(0.85f);
+        yield return new WaitForSeconds(0.75f);
         
         if(starParticle != null)
             starParticle.Play();
@@ -129,7 +129,7 @@ public class VictoryScreenManager : MonoBehaviour
 
     private IEnumerator ConfettiCoroutine()
     {
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(1f);
         PlayConfetti();
         
     }
