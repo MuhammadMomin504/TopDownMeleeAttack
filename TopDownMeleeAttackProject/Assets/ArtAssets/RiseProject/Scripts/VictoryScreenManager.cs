@@ -1,3 +1,4 @@
+using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using Spine;
@@ -9,14 +10,14 @@ public class VictoryScreenManager : MonoBehaviour
     [Header("Spine Settings")]
     [SerializeField] private SkeletonAnimation skeletonAnimation; // Use SkeletonGraphic if using UI
     [SerializeField, SpineEvent(dataField: "skeletonAnimation")] 
-    private const string spotLightEventName = "spotLightEvent";
-    
-    [SerializeField, SpineEvent(dataField: "skeletonAnimation")] 
-    private const string confettiEventName = "confettiEvent";
+    private const string spotLightEventName = "Spotlight";
+    private const string confettiEventName = "Confetti";
     
     [Header("Particle Settings")]
     private List<ParticleSystem> confettiParticles = default;
     [SerializeField] private GameObject confettiParent = default;
+    
+    [SerializeField] private ParticleSystem starParticle = default;
     
     [Header("Spot Light Settings")]
     [SerializeField] private GameObject spotLight = default;
@@ -29,6 +30,30 @@ public class VictoryScreenManager : MonoBehaviour
     {
         if(spotLight != null)
             spotLight.SetActive(false);
+        
+        // if(starParticle != null)
+        //     starParticle.Play();
+        
+        StartCoroutine(PlayStarParticle());
+    }
+
+    private IEnumerator PlayStarParticle()
+    {
+        ParticleSystem.MainModule temp = starParticle.main;
+        temp.startSpeed = 2f;
+
+        yield return new WaitForSeconds(0.85f);
+        
+        if(starParticle != null)
+            starParticle.Play();
+        
+        float time = 0f;
+        while (time < 1f)
+        {
+            time += Time.deltaTime;
+            temp.startSpeed = Mathf.Lerp(2f, 1f, time);
+            yield return null;
+        }
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,6 +76,10 @@ public class VictoryScreenManager : MonoBehaviour
                 }
             }
         }
+        
+        
+        //PlayConfetti();
+        
 
         if (skeletonAnimation != null)
         {
@@ -61,7 +90,6 @@ public class VictoryScreenManager : MonoBehaviour
             if (skeletonAnimation.Skeleton != null)
             {
                 spotLightEventData = skeletonAnimation.Skeleton.Data.FindEvent(spotLightEventName);
-                confettiEventData = skeletonAnimation.Skeleton.Data.FindEvent(confettiEventName);
             }
 
             // Subscribe to the Spine event callback
@@ -80,7 +108,7 @@ public class VictoryScreenManager : MonoBehaviour
         // 2. Check for Confetti Event
         if (e.Data == confettiEventData || e.Data.Name == confettiEventName)
         {
-            PlayConfetti();
+            StartCoroutine(ConfettiCoroutine());
         }
     }
     
@@ -89,6 +117,7 @@ public class VictoryScreenManager : MonoBehaviour
         Debug.Log("Spotlight Triggered!");
         if (spotLight != null)
             spotLight.SetActive(true);
+
     }
 
 
@@ -96,6 +125,13 @@ public class VictoryScreenManager : MonoBehaviour
     {
         foreach (ParticleSystem confettiParticleSystem in confettiParticles)
             confettiParticleSystem.Play();
+    }
+
+    private IEnumerator ConfettiCoroutine()
+    {
+        yield return new WaitForSeconds(0.75f);
+        PlayConfetti();
+        
     }
     
     private void OnDestroy()
@@ -110,9 +146,6 @@ public class VictoryScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            PlayConfetti();
-        }
+      
     }
 }
